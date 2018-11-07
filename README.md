@@ -1,3 +1,14 @@
+## React Media Server
+
+A sample React project to create a shared media server. This repo will showcase a login page as well as list all current users, with additional access for admin control.
+
+<br>
+<br>
+<br>
+<br>
+
+Create React App
+---
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
