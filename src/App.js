@@ -1,73 +1,122 @@
-import React, { Component, main } from "react";
+import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import icon from "./buttons.png";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Home from './Pages/Home';
+import Users from './Pages/Users';
 import "./App.css";
+//
+// const Index = () => <h2>Home</h2>;
+// //const OldUsers = () => <h2>OldUsers</h2>;
+// const Admin = () => <h2>Admin</h2>;
+//
+// const AppRouter = () => (
+//     <Router>
+//         <div>
+//             <nav>
+//                 <ul>
+//                     <li>
+//                         <Link to="/">Home</Link>
+//                     </li>
+//                     <li>
+//                         <Link to="/OldUsers/">OldUsers</Link>
+//                     </li>
+//                     <li>
+//                         <Link to="/Admin/">Admin</Link>
+//                     </li>
+//                 </ul>
+//             </nav>
+//
+//             <Route path="/" exact component={Index} />
+//             <Route path="/OldUsers/" component={OldUsers} />
+//             <Route path="/Admin/" component={Admin} />
+//         </div>
+//     </Router>
+// );
+//
+// export default AppRouter;
 
-export default class Login extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      email: "",
-      password: "",
-    };
-  }
-
-  validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0;
-  }
-
-  handleChange = event => {
-    this.setState({
-      [event.target.id]: event.target.value
-    });
-  }
-
-  handleSubmit = event => {
-    event.preventDefault();
-  }
-
-  render() {
+function AppRouter() {
     return (
-      <div id="parent">
-        <div id="heading">
-          <h1>Billy and Austin's pay-to-use media server</h1>
-          <h3>Please login to continue</h3>
-        </div>
-        <div className="icon">
-          <img src={icon} width="200"/>
-        </div>
-        <div className="Login">
-          <form onSubmit={this.handleSubmit}>
-            <FormGroup controlId="email" bsSize="large">
-              <ControlLabel>Email</ControlLabel>
-              <FormControl
-                autoFocus
-                type="email"
-                value={this.state.email}
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            <FormGroup controlId="password" bsSize="large">
-              <ControlLabel>Password</ControlLabel>
-              <FormControl
-                value={this.state.password}
-                onChange={this.handleChange}
-                type="password"
-              />
-            </FormGroup>
-            <Button
-              block
-              bsSize="large"
-              disabled={!this.validateForm()}
-              type="submit"
-            >
-              Send us btc
-            </Button>
-          </form>
-        </div>
-      </div>
+        <Router>
+            <div>
+                <ul>
+                    <li>
+                        <Link to="/">Home</Link>
+                    </li>
+                    <li>
+                        <Link to="/Users">Users</Link>
+                    </li>
+                    <li>
+                        <Link to="/Admin">Admin</Link>
+                    </li>
+                </ul>
+
+                <hr />
+
+                <Route exact path="/" component={Home} />
+                <Route path="/Users" component={Users} />
+                <Route path="/Admin" component={Admin} />
+            </div>
+        </Router>
     );
-  }
 }
+
+// function Home() {
+//     return (
+//         <div>
+//             <h2>Home</h2>
+//         </div>
+//     );
+// }
+
+// function OldUsers() {
+//     return (
+//         <div>
+//             <h2>OldUsers</h2>
+//         </div>
+//     );
+// }
+
+function Admin({ match }) {
+    return (
+        <div>
+            <h2>Admin</h2>
+            <ul>
+                <li>
+                    <Link to={`${match.url}/rendering`}>Rendering with React</Link>
+                </li>
+                <li>
+                    <Link to={`${match.url}/components`}>Components</Link>
+                </li>
+                <li>
+                    <Link to={`${match.url}/props-v-state`}>Props v. State</Link>
+                </li>
+            </ul>
+
+            <Route path={`${match.path}/:topicId`} component={Topic} />
+            <Route
+                exact
+                path={match.path}
+                render={() => <h3>Please select a topic.</h3>}
+            />
+        </div>
+    );
+}
+
+function Topic({ match }) {
+    return (
+        <div>
+            <h3>{match.params.topicId}</h3>
+        </div>
+    );
+
+    ReactDOM.render((
+        <Router>
+            <Users />
+        </Router>
+    ), document.getElementById('root'));
+
+}
+
+export default AppRouter;
