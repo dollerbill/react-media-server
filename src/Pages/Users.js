@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 import axios from 'axios';
 
 const baseUrl = "http://localhost:2403";
@@ -9,13 +12,17 @@ const columns = [{
     text: 'Username'
 }, {
     dataField: 'firstName',
+    //dataFormat: this.combineNames(),
     text: 'First Name'
 }, {
     dataField: 'lastName',
-    text: 'Last Price'
+    text: 'Last Name',
+    sort: true,
+    filter: textFilter()
 }, {
     dataField: 'email',
-    text: 'Email Address'
+    text: 'Email Address',
+    filter: textFilter()
 }];
 
 export default class Users extends Component {
@@ -27,11 +34,22 @@ export default class Users extends Component {
                 username: '',
                 firstName: '',
                 lastName: '',
+                fullName: '',
                 birthday: '',
                 email: '',
             }],
         };
     }
+
+    combineNames() {
+        //const fullName = this.state.tableData.firstName;
+        //return fullName;
+        //return "bilbo";
+    }
+
+    // nameFormatter(firstName, lastName) {
+    //     return ${this.state.firstName} ${tableData.lastName};
+    // }
 
     getUsers() {
         axios.get(baseUrl + '/users', {
@@ -47,7 +65,16 @@ export default class Users extends Component {
 
     render() {
         return (
-            <BootstrapTable keyField={'username'}  data={ this.state.tableData } columns={columns} />
+            <div className="container" style={{ marginTop: 10 }}>
+            <BootstrapTable
+                striped
+                hover
+                keyField={'username'}
+                data={ this.state.tableData }
+                columns={columns}
+                filter={ filterFactory() }
+                pagination={ paginationFactory() } />
+            </div>
         );
     }
 
