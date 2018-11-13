@@ -11,27 +11,6 @@ import API from '../api';
 
 const baseUrl = "http://localhost:2403";
 
-const columns = [
-    {
-    dataField: 'username',
-    text: 'Username'
-}, {
-    dataField: 'firstName',
-    //dataFormat: this.combineNames(),
-    text: 'First Name'
-}, {
-    dataField: 'lastName',
-    text: 'Last Name',
-}, {
-    dataField: 'email',
-    text: 'Email Address',
-}, {
-    dataField: 'edit',
-        text: 'Edit',
-        //formatter: this.deleteButton()
-    }
-];
-
 export default class Admin extends Component {
     constructor () {
         super();
@@ -46,8 +25,45 @@ export default class Admin extends Component {
                 birthday: '',
                 email: '',
             }],
-        };
+
+            columns: [
+                {
+                    dataField: 'username',
+                    text: 'Username'
+                }, {
+                    dataField: 'firstName',
+                    //dataFormat: this.combineNames(),
+                    text: 'First Name'
+                }, {
+                    dataField: 'lastName',
+                    text: 'Last Name',
+                }, {
+                    dataField: 'email',
+                    text: 'Email Address',
+                }, {
+                    dataField: 'edit',
+                    text: 'Edit',
+                    formatter: this.deleteButton
+                }
+            ]
+
+    };
     }
+
+
+    deleteButton = (cell, user) => {
+        console.log(user)
+        return (
+            <button
+                key="submit"
+                onClick={ () => this.deleteUser(user.id) }
+            >
+                Delete
+            </button>
+        )
+    }
+
+
 
     getUsers() {
         axios.get(baseUrl + '/users', {
@@ -58,24 +74,14 @@ export default class Admin extends Component {
     }
 
 
-    deleteUser() {
-        axios.get(baseUrl + `/users/${this.state.id}`)
+    deleteUser(user_id) {
+        axios.delete(baseUrl + `/users/${user_id}`)
             .then(res => {
-                console.log(res);
-                console.log(res.data);
+                this.getUsers();
             });
     }
 
-    deleteButton() {
-            return (
-                <button
-                    key="submit"
-                    onClick={ () => this.deleteUser(this.getValue()) }
-                >
-                    Delete
-                </button>
-            )
-    }
+
 
         componentDidMount () {
         this.getUsers();
@@ -105,7 +111,7 @@ export default class Admin extends Component {
                     hover
                     keyField={'username'}
                     data={ this.state.tableData }
-                    columns={columns}
+                    columns={this.state.columns}
                     filter={ filterFactory() }
                     pagination={ paginationFactory() }
                     cellEdit={ cellEditFactory({ mode: 'dbclick' }) }
@@ -118,3 +124,4 @@ export default class Admin extends Component {
 
 
 }
+

@@ -9,6 +9,11 @@ import { Button, ButtonGroup, Container} from "reactstrap";
 
 
 function AppRouter() {
+
+    //componentWillMount
+    //check local storage
+    //if cookie redirect to login
+
     return (
         <Router>
             <Container>
