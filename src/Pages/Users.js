@@ -7,13 +7,31 @@ import axios from 'axios';
 
 const baseUrl = "http://localhost:2403";
 
+// function nameFormatter(cell, row) {
+//     return (
+//     <span>${columns}firstName ${columns}lastName;
+//     </span>
+//     );
+//
+//
+// return (
+//     <span>
+//         $ { cell } text
+//     </span>
+// );
+// }
+
 const columns = [{
+//     dataField: 'username',
+//     text: '',
+//     formatter: nameFormatter()
+// },{
     dataField: 'username',
     text: 'Username'
 }, {
     dataField: 'firstName',
-    //dataFormat: this.combineNames(),
-    text: 'First Name'
+    text: 'First Name',
+    //formatter: nameFormatter()
 }, {
     dataField: 'lastName',
     text: 'Last Name',
@@ -34,7 +52,6 @@ export default class Users extends Component {
                 username: '',
                 firstName: '',
                 lastName: '',
-                fullName: '',
                 birthday: '',
                 email: '',
             }],
@@ -44,14 +61,18 @@ export default class Users extends Component {
     combineNames() {
         //const fullName = this.state.tableData.firstName;
         //return fullName;
-        //return "bilbo";
     }
 
-    // nameFormatter(firstName, lastName) {
-    //     return ${this.state.firstName} ${tableData.lastName};
-    // }
+    // imageFormatter(cell, row) {
+    //         return (
+    //             <span>
+    //     <strong style={{color: 'red'}}>$ {cell} TEXT HERE</strong>
+    //   </span>
+    //         );
+    //     }
 
-    getUsers() {
+
+        getUsers() {
         axios.get(baseUrl + '/users', {
             responseType: 'json'
         }).then(response => {

@@ -5,30 +5,25 @@ import Home from './Pages/Home';
 import Users from './Pages/Users';
 import "./App.css";
 import Admin from "./Pages/Admin";
+import { Button, ButtonGroup, Container} from "reactstrap";
 
 
 function AppRouter() {
     return (
         <Router>
-            <div>
-                <ul>
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/Users">Users</Link>
-                    </li>
-                    <li>
-                        <Link to="/Admin">Admin</Link>
-                    </li>
-                </ul>
-
-                <hr />
-
+            <Container>
+                <nav>
+                    <ButtonGroup>
+                        <Button tag={Link} to="/">Home</Button>
+                        <Button tag={Link} to="/users">Users</Button>
+                        <Button tag={Link} to="/admin">Admin</Button>
+                    </ButtonGroup>
+                </nav>
+            <hr />
                 <Route exact path="/" component={Home} />
                 <Route path="/Users" component={Users} />
                 <Route path="/Admin" component={Admin} />
-            </div>
+            </Container>
         </Router>
     );
 }

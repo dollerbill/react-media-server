@@ -1,15 +1,16 @@
-## React Media Server
+# React Media Server
+
 
 A sample React project to grant access to a shared media server. This repo will showcase a login page as well as list all current users, with additional access for admin control over users.
 
 <br>
 <br>
 
-Libraries, Frameworks, and Tools Used
----
+## Tools Used
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-API controlled through [deployd](http://deployd.com/).
+API controlled through [deployd](https://github.com/deployd/deployd).
 
 Layout and styling accomplished with [reactstrap](https://reactstrap.github.io/).
 

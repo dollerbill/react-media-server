@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Container, Row, Col } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import { Button, ButtonGroup, Container, Row, Col } from 'reactstrap';
 import icon from "../buttons.png";
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import {Button, ControlLabel, FormControl, FormGroup} from "react-bootstrap";
+import { ControlLabel, FormControl, FormGroup} from "react-bootstrap";
 
 export default class Home extends Component {
     constructor(props) {
@@ -14,8 +15,12 @@ export default class Home extends Component {
         };
     }
 
-    validateForm() {
-        return this.state.email.length > 0 && this.state.password.length > 0;
+    validateEmail() {
+        return this.state.email.length > 4;
+    }
+
+    validatePass() {
+        return this.state.password.length > 4;
     }
 
     handleChange = event => {
@@ -60,9 +65,9 @@ export default class Home extends Component {
                         </FormGroup>
                         <Button
                             block
-                            bsSize="large"
-                            disabled={!this.validateForm()}
-                            disabled={!this.validateForm()}
+                            color="info"
+                            disabled={!this.validateEmail()}
+                            disabled={!this.validatePass()}
                             type="submit"
                         >
                             Send us btc

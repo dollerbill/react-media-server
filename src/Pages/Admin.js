@@ -4,11 +4,15 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import axios from 'axios';
-import {Container, Row, Col} from "reactstrap";
+import Link from 'react-router-dom';
+import { Button, Container, Row, Col } from "reactstrap";
+import cellEditFactory from 'react-bootstrap-table2-editor';
+import API from '../api';
 
 const baseUrl = "http://localhost:2403";
 
-const columns = [{
+const columns = [
+    {
     dataField: 'username',
     text: 'Username'
 }, {
@@ -21,7 +25,12 @@ const columns = [{
 }, {
     dataField: 'email',
     text: 'Email Address',
-}];
+}, {
+    dataField: 'edit',
+        text: 'Edit',
+        //formatter: this.deleteButton()
+    }
+];
 
 export default class Admin extends Component {
     constructor () {
@@ -29,6 +38,7 @@ export default class Admin extends Component {
 
         this.state = {
             tableData: [{
+                id: '',
                 username: '',
                 firstName: '',
                 lastName: '',
@@ -39,16 +49,6 @@ export default class Admin extends Component {
         };
     }
 
-    combineNames() {
-        //const fullName = this.state.tableData.firstName;
-        //return fullName;
-        //return "bilbo";
-    }
-
-    // nameFormatter(firstName, lastName) {
-    //     return ${this.state.firstName} ${tableData.lastName};
-    // }
-
     getUsers() {
         axios.get(baseUrl + '/users', {
             responseType: 'json'
@@ -57,9 +57,30 @@ export default class Admin extends Component {
         });
     }
 
-    componentDidMount () {
+
+    deleteUser() {
+        axios.get(baseUrl + `/users/${this.state.id}`)
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+            });
+    }
+
+    deleteButton() {
+            return (
+                <button
+                    key="submit"
+                    onClick={ () => this.deleteUser(this.getValue()) }
+                >
+                    Delete
+                </button>
+            )
+    }
+
+        componentDidMount () {
         this.getUsers();
     }
+
 
     render() {
         return (
@@ -71,6 +92,13 @@ export default class Admin extends Component {
                     </Col>
                 </Row>
             </Container>
+                <button
+                    key="submit"
+                    className="btn btn-default"
+                    onClick={ () => this.updateSettings(this.getValue()) }
+                >
+                    UPDATE SETTINGS
+                </button>
             <div className="container" style={{ marginTop: 10 }}>
                 <BootstrapTable
                     striped
@@ -79,10 +107,14 @@ export default class Admin extends Component {
                     data={ this.state.tableData }
                     columns={columns}
                     filter={ filterFactory() }
-                    pagination={ paginationFactory() } />
+                    pagination={ paginationFactory() }
+                    cellEdit={ cellEditFactory({ mode: 'dbclick' }) }
+                />
             </div>
             </div>
         );
     }
 
-};
+
+
+}
